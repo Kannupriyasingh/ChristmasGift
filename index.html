@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Christmas Gift Reveal 🎄</title>
+
+  <style>
+    body {
+      background: linear-gradient(#b30000, #ff6666);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+      padding: 40px;
+    }
+
+    .gifts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .gift {
+      font-size: 70px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .gift:hover {
+      transform: scale(1.1);
+    }
+
+    .locked {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    #result {
+      margin-top: 40px;
+      font-size: 1.3rem;
+      background: rgba(255,255,255,0.2);
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🎄 Christmas Gift Surprise 🎁</h1>
+<p>
+  A little Christmas surprise from <b>Kannu Priya</b> ❤️<br>
+  Pick ONE gift 🎉
+</p>
+
+<div class="gifts" id="gifts"></div>
+
+<div id="result"></div>
+
+<script>
+  const gifts = [
+    "🍫 A chocolate treat (on me)",
+    "☕ Tea / Coffee treat sometime soon",
+    "💌 A handwritten note",
+    "😂 A custom meme made just for you",
+    "🎶 Song dedication from me",
+    "🎁 Small surprise gift",
+    "😄 Better luck next time!",
+    "🤞 Try again next year!",
+    "🎄 Christmas wishes & good vibes ✨",
+    "🧁 Homemade snack",
+    "📖 Book recommendation + chat",
+    "🎯 IOU: Gift coming soon 😉"
+  ];
+
+  const giftCount = 12;
+  const giftsContainer = document.getElementById("gifts");
+
+  // Create gift boxes
+  for (let i = 0; i < giftCount; i++) {
+    const gift = document.createElement("div");
+    gift.className = "gift";
+    gift.innerText = "🎁";
+    gift.onclick = openGift;
+    giftsContainer.appendChild(gift);
+  }
+
+  // If already opened, show saved gift immediately
+  const savedGift = localStorage.getItem("christmasGift");
+  if (savedGift) {
+    showResult(savedGift, true);
+  }
+
+  function openGift() {
+    if (localStorage.getItem("christmasGift")) {
+      alert("You already opened your gift 🎄");
+      return;
+    }
+
+    const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
+    localStorage.setItem("christmasGift", randomGift);
+
+    showResult(randomGift, false);
+  }
+
+  function showResult(gift, alreadyOpened) {
+    document.querySelectorAll(".gift").forEach(g => {
+      g.innerText = "🎄";
+      g.classList.add("locked");
+    });
+
+    const result = document.getElementById("result");
+    result.style.display = "block";
+    result.innerHTML = `
+      🎁 <b>${alreadyOpened ? "Already Opened!" : "Congratulations!"}</b><br><br>
+      Your Christmas gift from <b>Kannu Priya</b> is:<br><br>
+      🎉 <b>${gift}</b><br><br>
+      Screenshot this & send it to me 🎄
+    `;
+  }
+</script>
+
+</body>
+</html>
